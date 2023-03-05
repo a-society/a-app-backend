@@ -1,23 +1,10 @@
 import express from 'express';
 import userService from '../services/users.service';
 import debug from 'debug';
+import { STATUS } from '../../common/constants/response.constants';
 
 const log: debug.IDebugger = debug('app:users-controller');
 class UsersMiddleware {
-	async validateRequiredUserBodyFields(
-		req: express.Request,
-		res: express.Response,
-		next: express.NextFunction
-	) {
-		if (req.body && req.body.email && req.body.password) {
-			next();
-		} else {
-			res.status(400).send({
-				error: `Missing required fields email and password`,
-			});
-		}
-	}
-
 	async validateSameEmailDoesntExist(
 		req: express.Request,
 		res: express.Response,
@@ -25,7 +12,9 @@ class UsersMiddleware {
 	) {
 		const user = await userService.getUserByEmail(req.body.email);
 		if (user) {
-			res.status(400).send({ error: `User email already exists` });
+			res
+				.status(STATUS.BAD_REQUEST)
+				.send({ error: `User email already exists` });
 		} else {
 			next();
 		}
@@ -40,7 +29,7 @@ class UsersMiddleware {
 		if (user && user._id === req.params.userId) {
 			next();
 		} else {
-			res.status(400).send({ error: `Invalid email` });
+			res.status(STATUS.BAD_REQUEST).send({ error: `Invalid email` });
 		}
 	}
 
@@ -67,7 +56,7 @@ class UsersMiddleware {
 		if (user) {
 			next();
 		} else {
-			res.status(404).send({
+			res.status(STATUS.NOT_FOUND).send({
 				error: `User ${req.params.userId} not found`,
 			});
 		}

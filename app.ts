@@ -6,6 +6,13 @@ import cors from 'cors';
 import { CommonRoutesConfig } from './common/common.routes.config';
 import { UsersRoutes } from './users/users.routes.config';
 import debug from 'debug';
+import { STATUS } from './common/constants/response.constants';
+import dotenv from 'dotenv';
+
+const dotenvResult = dotenv.config();
+if (dotenvResult.error) {
+	throw dotenvResult.error;
+}
 
 const app: express.Application = express();
 const server: http.Server = http.createServer(app);
@@ -35,7 +42,7 @@ routes.push(new UsersRoutes(app));
 
 const runningMessage = `Server running at http://localhost:${port}`;
 app.get('/', (req: express.Request, res: express.Response) => {
-	res.status(200).send(runningMessage);
+	res.status(STATUS.OK).send(runningMessage);
 });
 server.listen(port, () => {
 	routes.forEach((route: CommonRoutesConfig) => {
