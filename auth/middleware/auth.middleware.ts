@@ -1,7 +1,7 @@
 import express from 'express';
 import usersService from '../../users/services/users.service';
 import * as argon2 from 'argon2';
-import { STATUS, MESSAGE } from '../../common/constants/response.constants';
+import { STATUS } from '../../common/constants/response.constants';
 
 class AuthMiddleware {
 	async verifyUserPassword(
@@ -23,6 +23,10 @@ class AuthMiddleware {
 				return next();
 			}
 		}
-		res.status(STATUS.BAD_REQUEST).send({ errors: [MESSAGE.BAD_REQUEST] });
+		res
+			.status(STATUS.BAD_REQUEST)
+			.send({ errors: ['Invalid email and/or password'] });
 	}
 }
+
+export default new AuthMiddleware();

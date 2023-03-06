@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import debug from 'debug';
+import { MONGO_URI } from '../utils/env.utils';
 
 const log: debug.IDebugger = debug('app:mongoose-service');
 
@@ -22,9 +23,9 @@ class MongooseService {
 	connectWithRetry = () => {
 		log('Attempting MongoDB connection (will retry if needed)');
 		mongoose
-			.connect('mongodb://localhost:27017/api-db', this.mongooseOptions)
+			.connect(MONGO_URI, this.mongooseOptions)
 			.then(() => {
-				log('MongoDB is connected');
+				console.log('MongoDB is connected');
 			})
 			.catch((err) => {
 				const retrySeconds = 5;
