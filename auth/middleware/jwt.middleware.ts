@@ -62,7 +62,6 @@ class JwtMiddleware {
 					return res.status(STATUS.UNAUTHORIZED).send();
 				} else {
 					res.locals.jwt = jwt.verify(authorization[1], JWT_SECRET) as Jwt;
-					console.log(`siema ${res.locals.jwt.userId} ${res.locals.jwt}`);
 					next();
 				}
 			} catch (err) {
