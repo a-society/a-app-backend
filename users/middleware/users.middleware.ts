@@ -25,11 +25,27 @@ class UsersMiddleware {
 		res: express.Response,
 		next: express.NextFunction
 	) {
-		const user = await userService.getUserByEmail(req.body.email);
-		if (user && user._id === req.params.userId) {
+		if (res.locals.user._id === req.params.userId) {
 			next();
 		} else {
 			res.status(STATUS.BAD_REQUEST).send({ error: `Invalid email` });
+		}
+	}
+
+	async userCantChangePermission(
+		req: express.Request,
+		res: express.Response,
+		next: express.NextFunction
+	) {
+		if (
+			'permissionFlags' in req.body &&
+			req.body.permissionFlags !== res.locals.user.permissionFlags
+		) {
+			res.status(STATUS.BAD_REQUEST).send({
+				errors: ['User cannot change permission flags'],
+			});
+		} else {
+			next();
 		}
 	}
 
@@ -54,6 +70,7 @@ class UsersMiddleware {
 	) {
 		const user = await userService.readById(req.params.userId);
 		if (user) {
+			res.locals.user = user;
 			next();
 		} else {
 			res.status(STATUS.NOT_FOUND).send({

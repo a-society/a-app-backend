@@ -1,0 +1,6 @@
+export enum PermissionFlag {
+	USER_PERMISSION = 1,
+	MOD_PERMISSION = 2,
+	ADMIN_PERMISSION = 4,
+	// SUDO = 2147483648,
+}

@@ -4,6 +4,7 @@ import { CreateUserDto } from '../dto/create.user.dto';
 import { PatchUserDto } from '../dto/patch.user.dto';
 import { PutUserDto } from '../dto/put.user.dto';
 import { v4 as uuidv4 } from 'uuid';
+import { PermissionFlag } from '../../common/middleware/common.permissionflag.enum';
 
 const log: debug.IDebugger = debug('app:in-memory-dao');
 
@@ -33,7 +34,7 @@ class UsersDao {
 		const user = new this.User({
 			_id: userId,
 			...userFields,
-			permissionFlags: 1,
+			permissionFlags: PermissionFlag.USER_PERMISSION,
 		});
 		await user.save();
 		return userId;
