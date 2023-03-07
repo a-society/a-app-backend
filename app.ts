@@ -6,6 +6,9 @@ import cors from 'cors';
 import debug from 'debug';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from './swagger-output.json';
+
 import { CommonRoutesConfig } from './common/common.routes.config';
 import { UsersRoutes } from './users/users.routes.config';
 import { AuthRoutes } from './auth/auth.routes.config';
@@ -44,6 +47,7 @@ if (!process.env.DEBUG) {
 }
 
 app.use(expressWinston.logger(loggerOptions));
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 routes.push(new UsersRoutes(app));
 routes.push(new AuthRoutes(app));
