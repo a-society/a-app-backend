@@ -28,7 +28,10 @@ const loggerOptions: expressWinston.LoggerOptions = {
 };
 
 if (!process.env.DEBUG) {
-	loggerOptions.meta = false; // when not debugging, make terse
+	loggerOptions.meta = false;
+	if (typeof global.it === 'function') {
+		loggerOptions.level = 'http'; // for non-debug test runs, squelch entirely
+	}
 }
 
 app.use(expressWinston.logger(loggerOptions));
@@ -40,7 +43,8 @@ const runningMessage = `Server running at http://localhost:${PORT}`;
 app.get('/', (req: express.Request, res: express.Response) => {
 	res.status(STATUS.OK).send(runningMessage);
 });
-server.listen(PORT, () => {
+
+export default server.listen(PORT, () => {
 	routes.forEach((route: CommonRoutesConfig) => {
 		debugLog(`Routes configured for ${route.getName()}`);
 	});

@@ -3,6 +3,7 @@ import usersService from '../services/users.service';
 import argon2 from 'argon2';
 import debug from 'debug';
 import { STATUS } from '../../common/constants/response.constants';
+import { PatchUserDto } from '../dto/patch.user.dto';
 
 const log: debug.IDebugger = debug('app:users-controller');
 class UsersController {
@@ -43,12 +44,10 @@ class UsersController {
 
 	// Development only!
 	async updatePermissionFlags(req: express.Request, res: express.Response) {
-		const permissionFlags = parseInt(req.params.permissionFlags);
-		log(
-			await usersService.patchById(req.params.userId, {
-				permissionFlags: permissionFlags,
-			})
-		);
+		const patchUserDto: PatchUserDto = {
+			permissionFlags: parseInt(req.params.permissionFlags),
+		};
+		log(await usersService.patchById(req.body.id, patchUserDto));
 		res.status(STATUS.NO_CONTENT).send();
 	}
 }
