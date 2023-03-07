@@ -1,0 +1,41 @@
+const STATUS = {
+	OK: 200,
+	CREATED: 201,
+	ACCEPTED: 202,
+	NO_CONTENT: 204,
+	MOVED_PERMANENTLY: 301,
+	FOUND: 302,
+	NOT_MODIFIED: 304,
+	BAD_REQUEST: 400,
+	UNAUTHORIZED: 401,
+	FORBIDDEN: 403,
+	NOT_FOUND: 404,
+	METHOD_NOT_ALLOWED: 405,
+	NOT_ACCEPTABLE: 406,
+	CONFLICT: 409,
+	GONE: 410,
+	UNPROCESSABLE_ENTITY: 422,
+	INTERNAL_SERVER_ERROR: 500,
+};
+
+const MESSAGE = {
+	OK: 'OK',
+	CREATED: 'Created',
+	ACCEPTED: 'Accepted',
+	NO_CONTENT: 'No Content',
+	MOVED_PERMANENTLY: 'Moved Permanently',
+	FOUND: 'Found',
+	NOT_MODIFIED: 'Not Modified',
+	BAD_REQUEST: 'Bad Request',
+	UNAUTHORIZED: 'Unauthorized',
+	FORBIDDEN: 'Forbidden',
+	NOT_FOUND: 'Not Found',
+	METHOD_NOT_ALLOWED: 'Method Not Allowed',
+	NOT_ACCEPTABLE: 'Not Acceptable',
+	CONFLICT: 'Conflict',
+	GONE: 'Gone',
+	UNPROCESSABLE_ENTITY: 'Unprocessable Entity',
+	INTERNAL_SERVER_ERROR: 'Internal Server Error',
+};
+
+export { STATUS, MESSAGE };
