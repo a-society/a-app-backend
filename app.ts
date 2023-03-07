@@ -5,6 +5,7 @@ import * as expressWinston from 'express-winston';
 import cors from 'cors';
 import debug from 'debug';
 import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
 import { CommonRoutesConfig } from './common/common.routes.config';
 import { UsersRoutes } from './users/users.routes.config';
 import { AuthRoutes } from './auth/auth.routes.config';
@@ -19,6 +20,12 @@ const debugLog: debug.IDebugger = debug('app');
 app.use(express.json());
 app.use(cors());
 app.use(helmet());
+app.use(
+	rateLimit({
+		windowMs: 15 * 60 * 1000, // 15 minutes
+		max: 100, // limit each IP to 100 requests per windowMs
+	})
+);
 
 const loggerOptions: expressWinston.LoggerOptions = {
 	transports: [new winston.transports.Console()],
